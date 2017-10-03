@@ -18,12 +18,33 @@ $(document).ready(function(){
             $("#keyboard-lower-container").show();
         }
     });
-    $(document).keypress(function (e){
-       $('#' + e.which).css("background-color", "teal");
-       
+    $(document).keydown(function (e){
+        if(e.keyCode != 16){
+            if(e.keyCode >= 65 && e.keyCode <= 90){
+                if(e.shiftKey){
+                    $('#' + e.which).css("background-color", "teal");
+                }else{
+                $('#' + (e.which+32)).css("background-color", "teal"); 
+                }
+            }else {
+            $('#' + e.which).css("background-color", "teal");
+            }
+        }
     });
-    // $(document).keyup(function (e){
-    //     $('#' + e.which).css("background-color", "#f5f5f5");
-    // });
+    $(document).keyup(function (e){
+        if(e.keyCode != 16){
+           if(e.keyCode >= 65 && e.keyCode <= 90){
+               if(e.shiftKey){
+                   $('#' + e.which).css("background-color", "#f5f5f5");
+               }else{
+               $('#' + (e.which+32)).css("background-color", "#f5f5f5"); 
+               }
+           }else {
+           $('#' + e.which).css("background-color", "#f5f5f5");
+           }
+        }
+   });
+   
+    
 
 });
