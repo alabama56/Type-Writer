@@ -11,6 +11,7 @@ var n = sentences[sentenceCounter].charAt(num++);
 var span = $("span")
    
 $(document).ready(function(){
+   
     $("#keyboard-upper-container").hide();
     
     $("<span class='glyphicon glyphicon-ok'></span>").appendTo("#feedback");
@@ -18,7 +19,7 @@ $(document).ready(function(){
     $(".glyphicon-ok").hide();
     $(".glyphicon-remove").hide();
     setSentence();
-    promptHighlight();
+    
     
     $(document).keydown(function(e){
         if(e.which === 16) {
@@ -60,35 +61,43 @@ $(document).ready(function(){
    });
 
    $(targetDiv).text(n);
+   promptHighlight();
    
    $(document).keypress(function (e){
-      
       var x = String.fromCharCode(e.which);
-        if(x === n){
-            n = sentences[0].charAt(num++);
-            $(targetDiv).text(n);
-            characterCounter++;
-            promptHighlight();
-            
-           
-            
-            glyphOK();
-          
-        }else if(x != n){
-            glyphRemove();
-        }
-        if($("#sentence, span").is(":last-child")){
-            alert("hell");
-            // sentenceCounter = 1;
-            // setSentence();
-        }
-       
+            if(x === n){
+                correctKey();
+                glyphOK();
 
-        
-   
+                if(characterCounter===sentences[sentenceCounter].length){
+                    noGlyph();
+                    sentenceDiv.empty();
+                    sentenceCounter = 1;
+                    setSentence();
+                    
+
+                
+                }
+                
+            }else if(x != n){
+                glyphRemove();
+            } 
    });
 });
 
+// function selectSentence (){
+//     for(var j = 0; j<=sentences.length; j++);
+
+// }
+
+
+function correctKey (){
+    n = sentences[sentenceCounter].charAt(num++);
+    $(targetDiv).text(n);
+    characterCounter++;
+    promptHighlight();
+   
+}
 
 
 function promptHighlight(){
@@ -96,6 +105,7 @@ function promptHighlight(){
     if (characterCounter!=0) {
         $("#letter-"+(characterCounter-1)).css("background-color", "white");
     }
+    
 }
 
 function setSentence(){
