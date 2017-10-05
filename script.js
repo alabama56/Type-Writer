@@ -11,15 +11,34 @@ var targetDiv = $("#target-letter")
 var n = sentences[sentenceCounter].charAt(num++);
 var span = $("span");
 var timestamp = null;
+var cancleGame = false;
 
-// var sentenceString;
-// var sentenceSplit;
-// function start(){
-//     interval_timer = setInterval(function(){
-//       timer ++;
-//       wpm = Math.round(numberOfWords / (timer / 60) - (2 * numberOfMistakes));
-//     }, 1000)
-// }
+function setSentence(){
+    var sentenceString = sentences[sentenceCounter];
+    
+
+    if(sentenceString === undefined){
+        var wpm = calcWPM();
+
+        
+        var playAgain = confirm("Do you want to play agin? Your WPM is " + wpm);
+        if(playAgain === true){
+            reset();    
+        }else{
+            cancle();
+        }
+        return;
+    }
+    var sentenceSplit = sentenceString.split("");
+
+    for (var i = 0; i<=sentenceString.length-1; i++) {
+        $("<span id=letter-"+i+">"+sentenceSplit[i]+"</span>").appendTo(sentenceDiv);
+     
+    } 
+  
+   
+}
+
 function calcWPM() {
     
     var endTimestamp = new Date().getTime();
@@ -60,36 +79,12 @@ function promptHighlight(){
     
 }
 
-function setSentence(){
-    var sentenceString = sentences[sentenceCounter];
+
+function cancle(){
+    targetDiv.empty();
+    $('#103').css("background-color", "#f5f5f5");
     
-
-    if(sentenceString === undefined){
-        var wpm = calcWPM();
-
-        
-        var playAgain = confirm("Do you want to play agin? Your WPM is " + wpm);
-        if(playAgain === true){
-            reset();
-            
-        }
-        return;
-    }
-    var sentenceSplit = sentenceString.split("");
-
-    for (var i = 0; i<=sentenceString.length-1; i++) {
-        $("<span id=letter-"+i+">"+sentenceSplit[i]+"</span>").appendTo(sentenceDiv);
-     
-    } 
-  
-   
 }
-
-// function endGame(){
-//     if(sentenceString === undefined){
-//     confirm("Do you want to play agin?")
-//     }
-// }
 
 function reset(){
     sentenceCounter = 0;
@@ -119,7 +114,7 @@ function noGlyph() {
 $(document).ready(function(){
     // var sentenceSplit;
     // var sentenceString;
-   
+
     $("#keyboard-upper-container").hide();
     $("<span class='glyphicon glyphicon-ok'></span>").appendTo("#feedback");
     $("<span class='glyphicon glyphicon-remove'></span>").appendTo("#feedback");
